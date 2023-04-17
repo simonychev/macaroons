@@ -39,23 +39,26 @@ $('#submit').click(function () {
     }
 
     if (!hasError) {
-        loader.css('display', 'flex');
-        let formInput = $('.order-form-items');
+        loader.css('display', 'flex');       
         $.ajax({
             method: "POST",
             url: "https://testologia.site/checkout",
-            data: { product: choice.val(), name: name.val(), phone: phone.val() },
-            success: function(data){
+            data: {rights: rights.is(':checked'), name: name.val(), phone: phone.val()},
+            success: function (data) {
                 loader.hide();
+                let formInput = $('#popup-form-input');
                 if (name.val() === 'itlogia') {
                     formInput.hide();
-                    $('#ajax-form-success').show();
+                    $('#ajax-form-popup').show();
                 } else {
-                    alert('Возникла ошибка при оформлении заказа, позвоните нам и сделайте заказ!');
+                    alert('Возникла непредвиденная ошибка, позвоните нам и получите консультацию!');
                 }
                 formInput.trigger("reset");
             }
-        })
+        })         
     }
-})
+});
 
+$('.choice-btn').click(event => {
+    $('#choice-input').val($(event.target).parents('.choice-item').find('.choice-item-title').text());
+});
